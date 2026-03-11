@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { Plus, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { KanbanCard } from './KanbanCard'
@@ -26,19 +26,11 @@ interface List {
 
 interface Props {
   list: List
-  onCardMove: (cardId: string, targetListId: string, position: number) => void
   onDelete: () => void
   onCardUpdate: () => void
 }
 
-const priorityColors: Record<string, string> = {
-  low: 'bg-gray-500',
-  medium: 'bg-blue-500',
-  high: 'bg-orange-500',
-  urgent: 'bg-red-500',
-}
-
-export function KanbanColumn({ list, onCardMove, onDelete, onCardUpdate }: Props) {
+export function KanbanColumn({ list, onDelete, onCardUpdate }: Props) {
   const [addingCard, setAddingCard] = useState(false)
   const [newCardTitle, setNewCardTitle] = useState('')
   const [editingName, setEditingName] = useState(false)

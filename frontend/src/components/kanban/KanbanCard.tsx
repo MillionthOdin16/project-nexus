@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Calendar, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { Calendar, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card as CardUI, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'

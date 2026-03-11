@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Plus, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { KanbanColumn } from '@/components/kanban/KanbanColumn'
-import { boardsApi, listsApi, cardsApi } from '@/lib/api'
+import { boardsApi, listsApi } from '@/lib/api'
 
 interface List {
   id: string
@@ -88,15 +88,6 @@ export function BoardPage() {
     }
   }
 
-  const handleCardMove = async (cardId: string, targetListId: string, position: number) => {
-    try {
-      await cardsApi.move(cardId, targetListId, position)
-      loadBoard()
-    } catch (error) {
-      console.error('Failed to move card:', error)
-    }
-  }
-
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center h-full">
@@ -149,7 +140,6 @@ export function BoardPage() {
             <KanbanColumn
               key={list.id}
               list={list}
-              onCardMove={handleCardMove}
               onDelete={() => handleDeleteList(list.id)}
               onCardUpdate={loadBoard}
             />

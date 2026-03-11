@@ -1,9 +1,9 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Plus, Layout, LogOut, Settings, ChevronRight, Layers } from 'lucide-react'
+import { Link, useNavigate, useParams, Outlet } from 'react-router-dom'
+import { Plus, LayoutGrid, LogOut, Layers } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
 import { boardsApi } from '@/lib/api'
-import { cn } from '@/utils'
+import { cn } from '@/lib/utils'
 
 interface Board {
   id: string
@@ -11,7 +11,7 @@ interface Board {
   description?: string
 }
 
-export function LayoutComponent({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children?: React.ReactNode }) {
   const navigate = useNavigate()
   const [boards, setBoards] = useState<Board[]>([])
   const [loading, setLoading] = useState(true)
@@ -95,7 +95,9 @@ export function LayoutComponent({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-hidden">{children}</main>
+      <main className="flex-1 overflow-hidden">
+        {children || <Outlet />}
+      </main>
     </div>
   )
 }
@@ -114,7 +116,7 @@ function BoardLink({ board }: { board: Board }) {
           : 'text-muted-foreground hover:bg-muted hover:text-foreground'
       )}
     >
-      <Layout className="w-4 h-4 flex-shrink-0" />
+      <LayoutGrid className="w-4 h-4 flex-shrink-0" />
       <span className="truncate">{board.name}</span>
     </Link>
   )
