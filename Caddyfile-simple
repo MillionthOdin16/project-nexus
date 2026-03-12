@@ -1,0 +1,20 @@
+{
+    admin off
+}
+
+:8082 {
+    encode gzip
+    
+    # Frontend
+    @nexus_frontend {
+        host nexus.bradarr.com
+        not path /api/*
+    }
+    reverse_proxy @nexus_frontend localhost:3001
+    
+    # Backend API
+    @nexus_backend {
+        host api.nexus.bradarr.com
+    }
+    reverse_proxy @nexus_backend localhost:8081
+}

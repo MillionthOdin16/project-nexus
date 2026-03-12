@@ -1,0 +1,7 @@
+nexus.bradarr.com {
+    reverse_proxy localhost:3001
+}
+
+api.nexus.bradarr.com {
+    reverse_proxy localhost:8081
+}
