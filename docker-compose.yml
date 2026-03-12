@@ -18,7 +18,7 @@ services:
   backend:
     build: ./backend
     ports:
-      - "8000:8000"
+      - "8081:8000"
     environment:
       - DATABASE_URL=postgresql://nexus:${POSTGRES_PASSWORD:-nexus_password}@db:5432/nexus
       - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-this}
@@ -33,7 +33,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "80:80"
+      - "3001:80"
     depends_on:
       - backend
 

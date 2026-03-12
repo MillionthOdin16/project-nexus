@@ -11,7 +11,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { boardsApi, tasksApi } from '../store/api';
-import { Board as BoardType, Task, TaskStatus } from '../types';
+import { Task, TaskStatus } from '../types';
 import KanbanColumn from '../components/KanbanColumn';
 import TaskCard from '../components/TaskCard';
 import TaskModal from '../components/TaskModal';
