@@ -1,45 +1,39 @@
-"""
-FastAPI application entry point
-"""
-from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
-from app.core.config import settings
-from app.db.session import init_db
-from app.api.v1.router import api_router
-
+from app.database import engine, Base
+from app.routers import auth, boards, tasks, ai
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
-    await init_db()
+    Base.metadata.create_all(bind=engine)
     yield
-    # Shutdown
-
 
 app = FastAPI(
-    title=settings.APP_NAME,
-    version=settings.APP_VERSION,
-    lifespan=lifespan,
-    docs_url="/api/docs",
-    redoc_url="/api/redoc",
+    title="Project Nexus API",
+    description="Kanban board API with AI integration",
+    version="1.0.0",
+    lifespan=lifespan
 )
 
-# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include API router
-app.include_router(api_router, prefix="/api/v1")
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(boards.router, prefix="/api/v1/boards", tags=["boards"])
+app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["tasks"])
+app.include_router(ai.router, prefix="/api/v1/ai", tags=["ai"])
 
+@app.get("/")
+async def root():
+    return {"message": "Project Nexus API", "version": "1.0.0"}
 
-@app.get("/api/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy", "app": settings.APP_NAME}
+@app.get("/health")
+async def health():
+    return {"status": "healthy"}
